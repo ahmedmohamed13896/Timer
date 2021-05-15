@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Timer JS</title>
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        padding: 0;
+        min-height: 100vh;
+      }
+      .container {
+        padding: 3rem;
+        background-color: #f3f3f3;
+        border-radius: 10px;
+        font-family: "Arial";
+      }
+      #timer {
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+      .buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Arial";
+      }
+      .buttons > button {
+        margin: 1rem;
+        border: 0;
+        outline: 0;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: 7px;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+      .start {
+        background-color: rgb(11, 240, 11);
+      }
+      .stop {
+        background-color: rgb(182, 1, 1);
+      }
+      .reset {
+        background-color: royalblue;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="timer">00 : 00 : 00</div>
+      <div class="buttons">
+        <button class="start" onclick="start()">start</button>
+        <button class="stop" onclick="stop()">stop</button>
+        <button class="reset" onclick="reset()">reset</button>
+      </div>
+    </div>
+    <script>
+      let hours = 1,
+        min = 1,
+        sec = 1,
+        allSeconds = hours * 60 * 60 + min * 60 + sec,
+        timeElement = document.querySelector("#timer"),
+        interval,
+        status = "stoped";
+
+      // start countdown
+      function start() {
+        if (status == "stoped") {
+          interval = setInterval(() => {
+            allSeconds--;
+
+            hours = Math.floor(allSeconds / 60 / 60);
+            min = Math.floor(allSeconds / 60) - hours * 60;
+            sec = allSeconds - min * 60 - hours * 60 * 60;
+
+            timeElement.textContent = `
+          ${hours < 10 ? "0" + hours : hours} :
+          ${min < 10 ? "0" + min : min} :
+          ${sec < 10 ? "0" + sec : sec}`;
+            allSeconds == 0 ? clearInterval(interval) : null;
+          }, 1000);
+          status = "started";
+        }
+      }
+
+      //   stop countdown
+      function stop() {
+        clearInterval(interval);
+        status = "stoped";
+      }
+
+      //   reset countdown
+      function reset() {
+        clearInterval(interval);
+        (hours = 1),
+          (min = 1),
+          (sec = 1),
+          (allSeconds = hours * 60 * 60 + min * 60 + sec);
+        timeElement.textContent = `
+          ${hours < 10 ? "0" + hours : hours} :
+          ${min < 10 ? "0" + min : min} :
+          ${sec < 10 ? "0" + sec : sec}`;
+        status = "stoped";
+      }
+    </script>
+  </body>
+</html>
